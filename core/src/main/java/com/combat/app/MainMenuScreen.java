@@ -17,7 +17,7 @@ public class MainMenuScreen extends ScreenApplicationAdapter {
 	
 	private MainGame game;
 	private SpriteBatch batch;
-	private BitmapFont font;
+	//private BitmapFont font;
 	private static Gdx gTool;
 	private Texture backGroud;
 	private Stage stage;
@@ -35,8 +35,8 @@ public class MainMenuScreen extends ScreenApplicationAdapter {
 		playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Cambia a la pantalla de juego
                 game.setScreen(new App(game));
+                //dispose();
             }
         });
 	}
@@ -48,7 +48,6 @@ public class MainMenuScreen extends ScreenApplicationAdapter {
 		exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Sale de la aplicación
                 Gdx.app.exit();
             }
         });
@@ -58,7 +57,7 @@ public class MainMenuScreen extends ScreenApplicationAdapter {
 	public void show() {
 		super.show();
 		batch = new SpriteBatch();
-		font = new BitmapFont();
+		//font = new BitmapFont();
 		this.backGroud = new Texture("main_menu_image.png");
 		stage = new Stage(new ScreenViewport());
 		gTool.input.setInputProcessor(stage);
@@ -87,9 +86,9 @@ public class MainMenuScreen extends ScreenApplicationAdapter {
 	@Override
 	public void dispose() {
 		super.dispose();
-		this.stage.dispose();
-		this.skin.dispose();
 		this.backGroud.dispose();
+		this.skin.dispose();
+		this.stage.dispose();
 		this.batch.dispose();
 	}
 }
