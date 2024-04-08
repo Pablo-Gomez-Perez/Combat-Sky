@@ -1,13 +1,16 @@
 package com.combat.entity;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class PlayerPlane {
 	private Vector2 position;
 	private Sprite sprite;
-	private final float speed = 200;
+	private float speed = 400;
 	
 	public static class Builder{
 		private PlayerPlane plane;
@@ -48,6 +51,7 @@ public class PlayerPlane {
 	public PlayerPlane(Sprite sprite) {
 		super();
 		this.sprite = sprite;
+		this.position = new Vector2(0,0);
 	}
 	
 	/**
@@ -80,5 +84,37 @@ public class PlayerPlane {
 	public float getSpeed() {
 		return speed;
 	}
+	
+	public void render(SpriteBatch batch) {
+		this.sprite.draw(batch);
+	}
+	
+	public void setSize(float width, float height) {
+		this.sprite.setSize(width, height);
+	}
+	
+	public void dispose() {
+		this.sprite.getTexture().dispose();
+	}
+	
+	public void update(float delta) {
+		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			position.y +=  speed * delta;
+		}
 		
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+			position.y -=  speed * delta;
+		}
+		
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+			position.x -=  speed * delta;
+		}
+		
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+			position.x +=  speed * delta;
+		}
+		
+		sprite.setPosition(position.x, position.y);
+	}
+	
 }

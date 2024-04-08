@@ -30,20 +30,23 @@ public class App extends ScreenApplicationAdapter {
     	this.backGround = new Texture("game_screen_back.png");
     	this.y1 = 0;
     	this.y2 = this.backGround.getHeight();
+    	this.builPlayerPlane();
     }        
     
     @Override
     public void render(float delta) {
     	super.render(delta);
         Gdx.gl.glClearColor(0.15f, 0.15f, 0.2f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
-        this.backGroundMovement();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);                              
         
         batch.begin();
         batch.draw(backGround, 0, y1);
         batch.draw(backGround, 0, y2);
+        this.playerPlane.render(this.batch);
         batch.end();
+        
+        playerPlane.update(delta);
+        this.backGroundMovement();
         
     }
 
@@ -51,6 +54,7 @@ public class App extends ScreenApplicationAdapter {
     public void dispose() {
         batch.dispose();
         backGround.dispose();
+        this.playerPlane.dispose();
     }
     
     
@@ -63,7 +67,14 @@ public class App extends ScreenApplicationAdapter {
     }
     
     private void builPlayerPlane() {
-    	var planeImage = new Texture("Colorable_blenheim_2.png");
-    	var initialPosition = new Vector2(200,110);
+    	var planeImage = new Texture("JU87B2 -progress_5_1.png");
+    	var initialPosition = new Vector2(100,110);
+    	
+    	this.playerPlane = PlayerPlane.builder(planeImage)
+    			.position(initialPosition)
+    			.size(planeImage.getWidth()*0.50f, planeImage.getWidth()*0.50f)
+    			.build();
     }
+    
+    
 }
