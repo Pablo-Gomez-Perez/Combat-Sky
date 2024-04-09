@@ -1,5 +1,6 @@
 package com.combat.entity;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -98,23 +99,35 @@ public class PlayerPlane {
 	}
 	
 	public void update(float delta) {
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+		float minX = 0; //coordenadas mínimas en el eje X y el eje Y
+		float minY = 0; //garantiza que el avión no pueda salir de la pantalla hacia la izquierda o hacia abajo.
+		float maxX = 480 - sprite.getWidth(); // ancho de la pantalla menos el ancho del avión
+		float maxY = 700 - sprite.getHeight(); //altura de la pantalla menos la altura del avión
+
+	
+
+		if(Gdx.input.isKeyPressed(Input.Keys.UP) && position.y < maxY) {
 			position.y +=  speed * delta;
 		}
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && position.y > minY) {
 			position.y -=  speed * delta;
 		}
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && position.x > minX) {
 			position.x -=  speed * delta;
 		}
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && position.x < maxX) {
 			position.x +=  speed * delta;
 		}
 		
+		// para que el avion no se salga del rango se utliza la libreria MathUtils
+		position.x = MathUtils.clamp(position.x, minX, maxX);
+		position.y = MathUtils.clamp(position.y, minY, maxY);
+		
 		sprite.setPosition(position.x, position.y);
+
 	}
 	
 }
